@@ -86,5 +86,21 @@ void generateTool(char[] directory, char[] modid){
 }
 
 void generateBlock(char[] directory, char[] modid){
-
+	char[] blockName;
+	writeln(cyanFormat ~ "Enter a name for the block. This should be its registered name, not its unlocalized name:" ~ resetFormat);
+	write("\033[1;36m>\033[0m");
+	readln(blockName);
+	blockName = cast(char[])removechars(blockName, "\n");
+	string blockModelName = cast(string)directory ~ "/models/block/" ~ cast(string)blockName ~ ".json";
+	File* f1 = new File(blockModelName, "w");
+	f1.write("{\n    \"parent\": \"block/cube_all\",\n    \"textures\": {\n        \"all\": \"" ~ modid ~ ":blocks/" ~ blockName ~ "\"\n    }\n}");
+	f1.close();
+	string itemModelName = cast(string)directory ~ "/models/item/" ~ cast(string)blockName ~ ".json";
+	File* f2 = new File(itemModelName, "w");
+	f2.write("{\n    \"parent\": \"" ~ modid ~ ":block/" ~ blockName ~ "\",\n    \"display\": {\n        \"thirdperson\": {\n            \"rotation\": [ 10, -45, 170 ],\n            \"translation\": [ 0, 1.5, -2.75 ],\n            \"scale\": [ 0.375, 0.375, 0.375 ]\n        }\n    }\n}");
+	f2.close();
+	string blockStateName = cast(string)directory ~ "/blockstates/" ~ cast(string)blockName ~ ".json";
+	File* f3 = new File(blockStateName, "w");
+	f3.write("{\n    \"variants\": {\n        \"normal\": { \"model\": \"" ~ modid ~ ":" ~ blockName ~ " }\n    }\n}");
+	writeln(cyanFormat ~ "The block " ~ blockName ~ " was successfully created, along with an ItemBlock model and a blockstate file." ~ resetFormat);
 }
