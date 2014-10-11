@@ -101,6 +101,6 @@ void generateBlock(char[] directory, char[] modid){
 	f2.close();
 	string blockStateName = cast(string)directory ~ "/blockstates/" ~ cast(string)blockName ~ ".json";
 	File* f3 = new File(blockStateName, "w");
-	f3.write("{\n    \"variants\": {\n        \"normal\": { \"model\": \"" ~ modid ~ ":" ~ blockName ~ " }\n    }\n}");
+	f3.write("{\n    \"variants\": {\n        \"normal\": { \"model\": \"" ~ modid ~ ":" ~ blockName ~ "\" }\n    }\n}");
 	writeln(cyanFormat ~ "The block " ~ blockName ~ " was successfully created, along with an ItemBlock model and a blockstate file." ~ resetFormat);
 }
